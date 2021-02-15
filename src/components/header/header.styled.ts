@@ -12,9 +12,15 @@ export const HeaderContainer = styled.div`
 
 export const Title = styled.header`
     font-family: 'Kaushan Script';
-    font-size: 2em;
     color: white;
+    cursor: pointer;
+    font-size: 1em;
     padding-left: 20px;
+    align-self: center;
+    @media (min-width: 400px) {
+        font-size: 2em;
+        padding-left: 20px;
+    }
 `;
 
 export const InputWrapper = styled.div`

@@ -3,10 +3,14 @@ import styled from 'styled-components';
 export const GistGrid = styled.div`
     display: grid;
     gap: 1em;
-    grid-auto-rows: calc(30vh - 100px);
-    max-width: 80%;
-    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 140px;
+    max-width: 90%;
+    grid-template-columns: 100%;
     margin: 80px auto 20px auto;
+    @media (min-width: 480px) {
+        grid-template-columns: repeat(2, 50%);
+        max-width: 80%;
+    }
 `;
 
 export const NotFound = styled.div`

@@ -1,12 +1,10 @@
-import { ReactElement } from 'react';
+import { ReactElement, useContext, useCallback, useEffect } from 'react';
 import { RouteComponentProps } from 'react-router';
-import { useQuery } from 'react-query';
+import { fetchGistData, store } from 'context';
 import { Header } from 'components';
-import { getGists } from 'api';
-import { reactQueryConfigOptions } from 'helpers';
+import { UserDetail } from './../userDetail';
 
 import * as S from './user.styled';
-import { UserDetail } from './userDetail';
 
 interface UserParams {
     user: string;
@@ -17,15 +15,20 @@ type UserProps = RouteComponentProps<UserParams>;
 export const User = (props: UserProps): ReactElement | null => {
     const { user } = props.match.params;
 
-    const { data: gistsUserData, isLoading, isError } = useQuery(['gistUser', user], () => getGists(user), reactQueryConfigOptions);
+    const { state, dispatch } = useContext(store);
+    const dispatchFetch = useCallback(() => dispatch(fetchGistData(user)), [dispatch, user]);
+
+    useEffect(() => {
+        dispatchFetch();
+    }, [dispatchFetch]);
 
     return (
         <>
             <Header />
-            {isLoading && <S.Loading>Loading</S.Loading>}
-            {isError && <S.NotFound>The user was not found or API rate exceeded the limit</S.NotFound>}
+            {state.loading && <S.Loading>Loading</S.Loading>}
+            {state.error && <S.NotFound>The user was not found or API rate exceeded the limit</S.NotFound>}
             <S.GistGrid>
-                {gistsUserData?.map((gist) => {
+                {state.data?.map((gist) => {
                     return <UserDetail key={gist.gistId} gist={gist} />;
                 })}
             </S.GistGrid>

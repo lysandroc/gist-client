@@ -1,4 +1,3 @@
-import { getForks } from 'api';
 import { GistForkInterface } from './GistForks';
 
 export interface GistUserResponse {
@@ -9,6 +8,9 @@ export interface GistUserResponse {
         [key: string]: {
             language: string;
         };
+    };
+    owner: {
+        url: string;
     };
 }
 
@@ -25,27 +27,28 @@ export class GistUser implements GistUserInterface {
     readonly description: string;
     readonly url: string;
     readonly languages: string[];
-    forks: GistForkInterface[] = [];
+    forks: GistForkInterface[];
 
     getGistLanguages(gistUser: GistUserResponse): string[] {
         return Object.values(gistUser.files).reduce((acc: string[], cur) => {
-            if (!acc.includes(cur.language)) acc.push(cur.language || 'text/plain');
+            const language = cur.language || 'text/plain';
+            if (!acc.includes(language)) acc.push(language);
             return acc;
         }, []);
     }
 
-    async getGistForks(gistUser: GistUserResponse): Promise<GistForkInterface[]> {
-        // TODO - decouple this logic from types the model
-        return await getForks(gistUser.id);
+    setForks(forks: GistForkInterface[]): void {
+        this.forks = forks
+            .filter((fork) => fork?.avatarLink)
+            .sort((a: GistForkInterface, b: GistForkInterface) => b.updatedAt.getTime() - a.updatedAt.getTime())
+            .slice(0, 3);
     }
 
     constructor(gistResponse: GistUserResponse) {
         this.gistId = gistResponse.id;
-        this.description = gistResponse.description;
+        this.description = gistResponse.description || 'Unnamed description';
         this.url = gistResponse.html_url;
         this.languages = this.getGistLanguages(gistResponse);
-        this.getGistForks(gistResponse).then((forks) => {
-            this.forks = forks;
-        });
+        this.forks = [];
     }
 }

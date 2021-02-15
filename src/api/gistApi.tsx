@@ -9,8 +9,13 @@ const gistForkURL = (gistId: string) => `gists/${gistId}/forks`;
 export const getGists = async (user: string): Promise<GistUser[]> => {
     const gistsUserResponse = await fetchValue<GistUserResponse[]>(`${BASE_URL}${gistUserURL(user)}`);
     const gists = gistsUserResponse.map((gist) => new GistUser(gist));
-    console.log({ gists });
-    return gists;
+    const gistWithForks = gists.map(async (gist) => {
+        const forks = await getForks(gist.gistId);
+        gist.setForks(forks);
+        return gist;
+    });
+    const solvedListOfPromise = Promise.all(gistWithForks);
+    return new Promise((resolve) => resolve(solvedListOfPromise));
 };
 
 export const getForks = async (gistId: string): Promise<GistForkInterface[]> => {

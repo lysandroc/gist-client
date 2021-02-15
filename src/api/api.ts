@@ -1,6 +1,5 @@
 const fetchAPI = async (url: string): Promise<Response> => {
-    const h = new Headers({ Authorization: 'token a20863eeec5bd33debe630917d8e15e90440288a' });
-    const response = await fetch(url, { headers: h });
+    const response = await fetch(url);
 
     if (!response.ok) throw new Error(response.statusText);
 

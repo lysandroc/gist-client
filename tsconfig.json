@@ -19,7 +19,6 @@
     "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
     "noImplicitAny": false,
@@ -27,9 +26,13 @@
     "removeComments": true,
     "strictNullChecks": true,
     "strictFunctionTypes": true,
-    "noImplicitReturns": true
+    "noImplicitReturns": true,
+    "isolatedModules": true
   },
   "include": [
     "src"
+  ],
+  "exclude": [
+    "***/*.test.ts"
   ]
 }

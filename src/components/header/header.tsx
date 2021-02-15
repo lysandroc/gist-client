@@ -11,9 +11,11 @@ export const Header = (): ReactElement => {
         history.push(userName);
     };
 
+    const homeHandler = () => history.push('/');
+
     return (
         <S.HeaderContainer>
-            <S.Title>Gist explorer</S.Title>
+            <S.Title onClick={homeHandler}>Gist explorer</S.Title>
             <S.InputWrapper>
                 <Input placeholder="Search a user name" action={actionHandler} />
             </S.InputWrapper>
