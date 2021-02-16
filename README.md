@@ -1,4 +1,4 @@
-# Getting Started with Create React App
+# Gist exploration
 
 Gist exploration gives you all information from a specific user
 
