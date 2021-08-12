@@ -2,14 +2,6 @@
 
 Gist exploration gives you all information from a specific user
 
-### Need to be improved
- - Include husky to validate the tests, eslint, prettier and commit messages
- - Include storybook to see all components rending without need run application locally
- - Create tests for context api and FLUX implementation
- - Make variables like color from css be resuable in a unique and centered file
- - Improve @media query for S L X screens to turn application experience mobile first
- - Improve UI from gists list
-
 ## Available Scripts
 
 In the project directory, you can run:
